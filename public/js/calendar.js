@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     selectable: true,
     events: async () => {
-      const response = await fetch('/events'); // Fetch existing events from your backend
+      const response = await fetch('/events');
       const events = await response.json();
       return events.map(event => ({
         title: event.title,
-        // Adjust UTC time to Mountain Time (-6 or -7 hours)
+        // Adjust stored UTC time back to local (Mountain Time)
         start: new Date(new Date(event.time).getTime() - (new Date().getTimezoneOffset() * 60000)),
         id: event.id
       }));
@@ -39,10 +39,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function openModal(event, date = null) {
     modal.style.display = 'block';
-    
+
     if (event) {
       document.getElementById('eventTitle').value = event.title;
-      // Adjust for local time when displaying in input
       const local = new Date(event.start.getTime() - (event.start.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
       document.getElementById('eventTime').value = local;
       deleteEventBtn.style.display = 'inline-block';
@@ -73,11 +72,10 @@ document.addEventListener('DOMContentLoaded', function () {
     let time = document.getElementById('eventTime').value;
 
     if (title && time) {
-      // Convert the input time to a Date object
       time = new Date(time);
 
-      // Fix timezone shift by removing local offset before converting to ISO
-      const localISOTime = new Date(time.getTime() - (time.getTimezoneOffset() * 60000)).toISOString();
+      // ✅ FIXED: Save as proper UTC — don't double-adjust
+      const localISOTime = time.toISOString();
 
       const newEvent = {
         title: title,
@@ -86,10 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       let response;
       if (currentEvent) {
-        // Update the event in the backend
-        currentEvent.setProp('title', title);
-        currentEvent.setStart(time);
-
+        // Update event in DB only — no setStart() to avoid timezone conflict
         response = await fetch(`/events/${currentEvent.id}`, {
           method: 'PUT',
           headers: {
@@ -98,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
           body: JSON.stringify(newEvent),
         });
       } else {
-        // Add the event in the backend
+        // Create new event
         response = await fetch('/events/add', {
           method: 'POST',
           headers: {
@@ -108,8 +103,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       }
 
-      await response.json(); // Ensure backend responds correctly
-      calendar.refetchEvents(); // Refresh calendar display
+      await response.json();
+      calendar.refetchEvents(); // Ensures calendar uses correctly adjusted time
       modal.style.display = 'none';
     }
   });
