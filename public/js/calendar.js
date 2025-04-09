@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const events = await response.json();
       return events.map(event => ({
         title: event.title,
-        start: event.time,
+        // Adjust UTC time to Mountain Time (-6 or -7 hours)
+        start: new Date(new Date(event.time).getTime() - (new Date().getTimezoneOffset() * 60000)),
         id: event.id
       }));
     },
@@ -41,14 +42,21 @@ document.addEventListener('DOMContentLoaded', function () {
     
     if (event) {
       document.getElementById('eventTitle').value = event.title;
-      document.getElementById('eventTime').value = event.start.toISOString().slice(0, 16);
-      deleteEventBtn.style.display = 'inline-block'; // Show delete button
-      addEventBtn.style.display = 'none'; // Hide "Add Event" button when editing
+      // Adjust for local time when displaying in input
+      const local = new Date(event.start.getTime() - (event.start.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+      document.getElementById('eventTime').value = local;
+      deleteEventBtn.style.display = 'inline-block';
+      addEventBtn.style.display = 'none';
     } else {
       document.getElementById('eventTitle').value = '';
-      document.getElementById('eventTime').value = date ? date.toISOString().slice(0, 16) : '';
-      deleteEventBtn.style.display = 'none'; // Hide delete button when creating new event
-      addEventBtn.style.display = 'inline-block'; // Show "Add Event" button when creating new event
+      if (date) {
+        const local = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+        document.getElementById('eventTime').value = local;
+      } else {
+        document.getElementById('eventTime').value = '';
+      }
+      deleteEventBtn.style.display = 'none';
+      addEventBtn.style.display = 'inline-block';
     }
   }
 
@@ -62,20 +70,27 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('eventForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const title = document.getElementById('eventTitle').value;
-    const time = document.getElementById('eventTime').value;
+    let time = document.getElementById('eventTime').value;
 
     if (title && time) {
+      // Convert the input time to a Date object
+      time = new Date(time);
+
+      // Fix timezone shift by removing local offset before converting to ISO
+      const localISOTime = new Date(time.getTime() - (time.getTimezoneOffset() * 60000)).toISOString();
+
       const newEvent = {
         title: title,
-        time: new Date(time),
+        time: localISOTime,
       };
 
+      let response;
       if (currentEvent) {
-        currentEvent.setProp('title', title);
-        currentEvent.setStart(new Date(time));
-
         // Update the event in the backend
-        await fetch(`/events/${currentEvent.id}`, {
+        currentEvent.setProp('title', title);
+        currentEvent.setStart(time);
+
+        response = await fetch(`/events/${currentEvent.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -84,38 +99,29 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       } else {
         // Add the event in the backend
-        const response = await fetch('/events/add', {
+        response = await fetch('/events/add', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(newEvent),
         });
-        const addedEvent = await response.json(); // Get the added event from the response
-        calendar.addEvent({
-          title: addedEvent.title,
-          start: addedEvent.time,
-          id: addedEvent.id
-        });
       }
 
-      // Close the modal after adding or updating event
+      await response.json(); // Ensure backend responds correctly
+      calendar.refetchEvents(); // Refresh calendar display
       modal.style.display = 'none';
-
-      // Refresh events on the calendar
-      calendar.refetchEvents(); // Manually refetch events to update the calendar
     }
   });
 
   // Delete Event
   deleteEventBtn.addEventListener('click', async function() {
     if (currentEvent) {
-      // Delete event in the backend
       await fetch(`/events/delete/${currentEvent.id}`, {
         method: 'POST',
       });
       currentEvent.remove();
-      currentEvent = null; // Reset currentEvent
+      currentEvent = null;
     }
     modal.style.display = 'none';
   });
