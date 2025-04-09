@@ -1,0 +1,635 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
+
+:root {
+    --yellow: #ffeb3b;
+    --black: #000;
+    --white: #fff;
+    --font-main: 'Space Grotesk', sans-serif;
+}
+
+html{
+    margin: 0;
+    padding: 0;
+    background: var(--yellow);
+    font-family: var(--font-main);
+    color: var(--black);
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+
+header {
+    background: var(--black);
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--yellow);
+    letter-spacing: 1px;
+}
+
+header h1 {
+    font-size: 3.5rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+nav a {
+    margin-left: 2rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--yellow);
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+nav a:hover {
+    color: var(--white);
+    border-bottom: 2px solid var(--yellow);
+}
+
+/* Horizontal Scrolling Notes Section */
+.notes-section {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding: 2rem 4rem;
+    scroll-behavior: smooth;
+}
+
+.note-card {
+    background: var(--white);
+    padding: 1.5rem;
+    border: 2px solid var(--black);
+    text-align: left;
+    transition: transform 0.2s ease;
+    min-width: 250px; /* Minimum width for each note */
+    flex-shrink: 0; /* Prevent the cards from shrinking */
+}
+
+.note-card:hover {
+    transform: scale(1.02);
+}
+
+.note-card a {
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--black);
+}
+
+.note-card small {
+    display: block;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* General Styles for Both edit.ejs and view.ejs */
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--yellow);
+    color: var(--black);
+    margin: 0;
+    padding: 0;
+    text-align: left;  /* Ensure left alignment */
+}
+
+h1, h2 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--black);
+}
+
+/* Edit Note Form */
+.edit-note-form {
+    background: var(--white);
+    padding: 2rem;
+    border: 2px solid var(--black);
+    width: 100%;
+    max-width: 600px;
+    margin: 0; /* Removed auto margin to avoid centering */
+    border-radius: 8px;
+}
+
+.edit-note-form label {
+    font-size: 1rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.edit-note-form input,
+.edit-note-form textarea,
+.edit-note-form select {
+    width: 95%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--black);
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+}
+
+.edit-note-form button {
+    background: var(--black);
+    color: var(--yellow);
+    padding: 1rem;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.edit-note-form button:hover {
+    background: var(--yellow);
+    color: var(--black);
+}
+
+/* Delete Button */
+.delete-bt {
+    background: #f44336;
+    color: #fff;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.delete-bt:hover {
+    background: #e53935;
+}
+
+/* Share This Note Form */
+.share-note-form {
+    background: var(--white);
+    padding: 2rem;
+    border: 2px solid var(--black);
+    width: 100%;
+    max-width: 600px;
+    margin: 0; /* Removed auto margin to avoid centering */
+    border-radius: 8px;
+}
+
+.share-note-form label {
+    font-size: 1rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.share-note-form input,
+.share-note-form select {
+    width: 95%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--black);
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+}
+
+.share-note-form button {
+    background: var(--black);
+    color: var(--yellow);
+    padding: 1rem;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.share-note-form button:hover {
+    background: var(--yellow);
+    color: var(--black);
+}
+
+/* View Note Styles */
+.note-container {
+    background: var(--white);
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0; /* Removed auto margin to avoid centering */
+    border: 2px solid var(--black);
+    border-radius: 8px;
+}
+
+.note-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--black);
+}
+
+.note-content {
+    font-size: 1.1rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+.note-actions {
+    margin-top: 2rem;
+    text-align: left;  /* Align actions to the left */
+}
+
+.edit-note,
+.delete-bt {
+    background: var(--black);
+    color: var(--yellow);
+    padding: 1rem 2rem;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 0.5rem;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.edit-note:hover,
+.delete-bt:hover {
+    background: var(--yellow);
+    color: var(--black);
+}
+
+/* Non-Box Button Styles (Buttons outside forms or containers) */
+.edit-note:not(.edit-note-form),
+.delete-bt:not(.edit-note-form) {
+    background: var(--white);
+    color: var(--black);
+    border: 2px solid var(--black);
+}
+
+.edit-note:not(.edit-note-form):hover,
+.delete-bt:not(.edit-note-form):hover {
+    background: var(--black);
+    color: var(--yellow);
+}
+
+
+
+
+
+/* Admin Dashboard Specific Styles */
+.admin-dashboard {
+  background: var(--yellow);
+  color: var(--black);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: var(--black);
+  color: var(--yellow);
+}
+
+.delete-bt, .change-role-bt, .view-notes, .add-new:hover {
+  background: var(--white);  /* White background for buttons */
+  color: var(--black);       /* Black text for visibility */
+  padding: 0.8rem 1.5rem;
+  border: 2px solid var(--black); /* Border for a solid look */
+  cursor: pointer;
+  font-weight: bold;
+  display: inline-block;
+  border-radius: 5px;
+  transition: all 0.2s ease; /* Smooth transition for hover effects */
+}
+
+.delete-bt:hover, .change-role-bt:hover, .view-notes:hover, .add-new {
+  background: var(--black); /* Yellow background on hover */
+  color: var(--yellow);       /* Black text on hover */
+  border: 2px solid var(--yellow); /* Matching border color on hover */
+}
+
+ .add-new {
+  padding: 0.8rem 1.5rem;/* Border for a solid look */
+  cursor: pointer;
+  font-weight: bold;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+/* Role Selection Container */
+.role-select-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.role-select {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid var(--black);
+  border-radius: 5px;
+  background-color: var(--white); /* White background to contrast with yellow */
+  color: var(--black);
+  width: 160px; /* Adjust width for consistency */
+}
+
+.role-select:focus {
+  outline: none;
+  border-color: var(--yellow); /* Highlight with yellow when focused */
+}
+
+.main-h1-h2, .edit-note-form, .share-note-form, .space, #space, .add-new, #register-a{
+  margin-left: 3rem;
+}
+
+.note-container {
+  margin-top: 3rem;
+
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 8vw;
+}
+
+#register-a:hover, #login-a:hover {
+  color: var(--black);
+}
+
+
+/* Login Form Styles */
+.login-form {
+  background: var(--white);
+  padding: 2rem;
+  border: 2px solid var(--black);
+  width: 100%;
+  max-width: 600px;
+  border-radius: 8px;
+}
+
+.login-form label {
+  font-size: 1rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.login-form input {
+  width: 95%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--black);
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+}
+
+/* Submit Button */
+.login-bt {
+  background: var(--black);
+  color: var(--yellow);
+  padding: 1rem;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.login-bt:hover {
+  background: var(--yellow);
+  color: var(--black);
+}
+
+/* Register Form Styles */
+.register-form {
+  background: var(--white);
+  padding: 2rem;
+  border: 2px solid var(--black);
+  width: 100%;
+  max-width: 600px;
+  margin: 0;
+  border-radius: 8px;
+}
+
+.register-form label {
+  font-size: 1rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.register-form input {
+  width: 95%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--black);
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+}
+
+/* Register Button */
+.register-bt {
+  background: var(--black);
+  color: var(--yellow);
+  padding: 1rem;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.register-bt:hover {
+  background: var(--yellow);
+  color: var(--black);
+}
+
+.register-form {
+  margin-bottom: 1rem;
+}
+
+.register-page {
+  margin-bottom: 5rem;
+}
+
+th, td {
+  border-bottom: 1px solid var(--black);
+}
+
+table tbody tr:hover {
+  background-color: #fffde7; /* A soft buttery yellow */
+  transition: background-color 0.2s ease;
+}
+
+
+
+/* Modal styles */
+
+.calendar-container {
+  max-width: 80%;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.calendar {
+  max-width: 100%;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  padding-top: 50px;
+}
+
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#eventTitle, #eventTime {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+#addEventBtn {
+  background-color: var(--black);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#addEventBtn:hover {
+  background-color: var(--yellow);
+  color: var(--black);
+}
+
+/* Button for Deleting */
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #e53935;
+}
+
+#eventForm{
+  padding-right: 5%;
+}
+
+  /* Calendar Styles */
+  .fc-daygrid-day {
+    background-color: var(--white);
+    border: 1px solid var(--black);
+  }
+
+  /* Base button style */
+.fc-button {
+  background-color: var(--black) !important;
+  color: var(--yellow) !important;
+  border: none !important;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+/* Hover effect for INACTIVE buttons */
+.fc-button:not(.fc-button-active):hover {
+  color: var(--white) !important;
+  font-weight: bold;
+}
+
+/* Active button style */
+.fc-button-active {
+  background-color: var(--yellow) !important;
+  color: var(--black) !important;
+  border: none !important;
+  font-weight: bold;
+}
+
+/* Hover effect for ACTIVE button — no color change, just keep it bold */
+.fc-button-active:hover {
+  font-weight: bold;
+}
+
+  .fc-daygrid-day:hover,
+  .fc-timegrid-slot:hover {
+    background-color: #e6f7ff !important;
+  }
+
+  .fc-header-toolbar {
+    background: var(--black);
+    color: var(--yellow);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .fc-daygrid-day-frame {
+    z-index: 1;
+  }
+
+  .fc-button:focus,
+  .fc-button:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .fc-toolbar-title{
+    color: var(--white);
+  }
+

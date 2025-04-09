@@ -1,0 +1,18 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= title %></title>
+<link rel="stylesheet" href="/css/main2.css">
+<script src="/js/calendar.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+
+<% if (styles && styles.length > 0) { %>
+    <% styles.forEach((style) => { %>
+        <%- style %>
+    <% }); %>
+<% } %>
+<% if (scripts && scripts.length > 0) { %>
+    <% scripts.forEach((script) => { %>
+        <%- script %>
+    <% }); %>
+<% } %>

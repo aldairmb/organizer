@@ -1,0 +1,13 @@
+<body>
+    <div class="note-container" id="space" id="view-container">
+        <h1 class="note-title"><%= note.title %></h1>
+        <p class="note-content"><%= note.content %></p>
+    </div>
+
+    <div class="note-actions" id="space">
+        <a href="/notes/edit/<%= note.id %>" class="edit-note">Edit Note</a>
+        <form action="/notes/delete/<%= note.id %>" method="POST" class="delete-form" onsubmit="return confirm('Are you sure you want to delete this note?');">
+            <button type="submit" class="delete-bt">Delete Note</button>
+        </form>
+    </div>
+</body>

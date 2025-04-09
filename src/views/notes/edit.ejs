@@ -1,0 +1,33 @@
+<body class="edit-note-page">
+    <h1 class="main-h1-h2">Edit Note:</h1>
+    <br><br>
+
+    <form action="/notes/edit/<%= note.id %>" method="POST" class="edit-note-form">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" value="<%= note.title %>" required>
+        
+        <label for="content">Content:</label>
+        <textarea name="content" id="content" required><%= note.content %></textarea>
+
+        <button type="submit" id="form-bt">Update Note</button>
+    </form>
+
+    <form action="/notes/delete/<%= note.id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this note?');" class="space">
+        <button type="submit" class="delete-bt"  id="form-bt">Delete Note</button>
+    </form>
+
+    <hr>
+    <h2 class="main-h1-h2">Share This Note</h2>
+    <form action="/notes/share/<%= note.id %>" method="POST" class="share-note-form">
+        <label for="email">Email of user to share with:</label>
+        <input type="email" name="email" id="email" required>
+
+        <label for="accessLevel">Access Level:</label>
+        <select name="accessLevel" id="accessLevel" required>
+            <option value="viewer">Viewer</option>
+            <option value="collaborator">Collaborator</option>
+        </select>
+
+        <button type="submit" id="form-bt">Share Note</button>
+    </form>
+</body>

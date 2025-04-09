@@ -1,0 +1,51 @@
+<body>
+    <div class="calendar-container">
+        <div id="calendar"></div>
+      </div>
+      
+      <!-- Modal HTML -->
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Create Event</h2>
+          <form id="eventForm">
+            <input type="text" id="eventTitle" placeholder="Enter Event Title" required />
+            <input type="datetime-local" id="eventTime" required />
+            <button type="submit" id="addEventBtn">Add Event</button>
+          </form>
+          <button id="deleteEventBtn" class="delete-btn" style="display:none;">Delete Event</button>
+        </div>
+      </div>
+    <h1 class="main-h1-h2">My Notes</h1>
+    <br><br>
+    <a href="/notes/add" class="add-new">Add New Note</a>
+
+    <h2 class="main-h1-h2">Owned Notes</h2>
+    <div class="notes-section">
+        <% if (ownedNotes.length > 0) { %>
+            <% ownedNotes.forEach(note => { %>
+                <div class="note-card">
+                    <a href="/notes/view/<%= note.id %>" class="note-link"><%= note.title %></a>
+                    <small>Created: <%= new Date(note.created_at).toLocaleString() %></small>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>You have no notes yet.</p>
+        <% } %>
+    </div>
+
+    <h2 class="main-h1-h2">Shared With You</h2>
+    <div class="notes-section">
+        <% if (sharedNotes.length > 0) { %>
+            <% sharedNotes.forEach(note => { %>
+                <div class="note-card">
+                    <a href="/notes/view/<%= note.id %>" class="note-link"><%= note.title %></a>
+                    <small>Shared as: <%= note.access_level %> | Created: <%= new Date(note.created_at).toLocaleString() %></small>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No notes have been shared with you.</p>
+        <% } %>
+    </div>
+    <br><br><br>
+</body>

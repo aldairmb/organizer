@@ -1,0 +1,21 @@
+<body>
+    <h2 class="main-h1-h2">Notes by <%= user.username %></h2>
+
+    <% if (notes.length === 0) { %>
+        <p>This user has no notes.</p>
+    <% } else { %>
+        <h2 class="main-h1-h2">Owned Notes</h2>
+        <div class="notes-section">
+            <% notes.forEach(note => { %>
+                <div class="note-card">
+                    <a href="/notes/view/<%= note.id %>" class="note-link">
+                        <strong><%= note.title %></strong>
+                    </a>
+                    <br>
+                    <small>Created: <%= new Date(note.created_at).toLocaleString() %></small>
+                    <p><%= note.content.substring(0, 100) %>...</p> <!-- Shortened content preview -->
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</body>

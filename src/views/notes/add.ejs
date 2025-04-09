@@ -1,0 +1,25 @@
+<body class="edit-note-page">
+    <h1 class="main-h1-h2">Add New Note</h1>
+    <br><br>
+
+    <form action="/notes/add" method="POST" class="edit-note-form">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required>
+
+        <label for="content">Content:</label>
+        <textarea name="content" id="content" required></textarea>
+
+        <hr>
+        <h2>Share This Note (Optional)</h2>
+        <label for="email">Email of user to share with:</label>
+        <input type="email" name="email" id="email">
+
+        <label for="accessLevel">Access Level:</label>
+        <select name="accessLevel" id="accessLevel">
+            <option value="viewer">Viewer</option>
+            <option value="collaborator">Collaborator</option>
+        </select>
+
+        <button type="submit" id="form-bt">Add Note</button>
+    </form>
+</body>

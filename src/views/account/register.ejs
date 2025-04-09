@@ -1,0 +1,21 @@
+<body class="register-page">
+    <h1 class="main-h1-h2">Register</h1>
+
+    <form action="/account/register" method="POST" class="register-form" id="space">
+        <label for="username">Username:</label>
+        <input type="text" name="username" placeholder="Enter Username" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" placeholder="Enter Email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" placeholder="Enter Password" required>
+
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+
+        <button type="submit" class="register-bt">Register</button>
+    </form>
+
+    <a href="/account/login" id="register-a">Back to login</a>
+</body>
